@@ -1,0 +1,6 @@
+-r requirements.txt
+# Optional extras for real model training / indexing
+faiss-cpu>=1.8.0
+sentence-transformers>=3.0.0
+torch>=2.2
+transformers>=4.40

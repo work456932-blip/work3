@@ -1,0 +1,70 @@
+# dataset / generated artifacts
+artifacts/images/
+artifacts/index/
+artifacts/notes/
+artifacts/reports/
+pipeline_output.json
+studies.csv
+
+# caches
+__pycache__/
+.pytest_cache/
+src/.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+
+# environments
+.venv/
+venv/
+env/
+
+# logs / temp
+*.log
+tmp/
+temp/
+
+# model weights / checkpoints
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# notebooks / system files
+.ipynb_checkpoints/
+.DS_Store
+
+# data / artifacts
+artifacts/images/
+artifacts/notes/
+artifacts/reports/
+artifacts/reports_new/
+artifacts/reports_calibrated/
+artifacts/embedding_cache/
+artifacts/index/
+artifacts/logs/
+artifacts/*.csv
+artifacts/*.json
+
+# large arrays / pickle
+*.npy
+*.npz
+*.pkl
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# logs / cache
+*.log
+__pycache__/
+*.pyc
+.cache/
+.ipynb_checkpoints/
+
+# ignore all generated artifacts and data
+artifacts/
+
+# accidental shell/temp files
+=*

@@ -1,0 +1,112 @@
+project_name: circle_anonymous
+
+paths:
+  artifacts_dir: ./artifacts
+
+models:
+  text_encoder_name: "biomedclip_text"
+  image_encoder_name: "cxr_foundation"
+  vision_backbone_name: "torchxrayvision_densenet121"
+  image_size: 512
+
+  lesion_labels:
+    - opacity
+    - effusion
+    - pneumothorax
+    - edema
+    - atelectasis
+    - cardiomegaly
+    - device
+
+  lung_regions:
+    - left_upper
+    - left_lower
+    - right_upper
+    - right_lower
+
+  use_trained_vision_heads: false
+  vision_checkpoint: ""
+  api:
+    enabled: true
+    provider: "openai_compat"
+    base_url: "http://127.0.0.1:8000/v1"
+    api_key: "EMPTY"
+    auth_token_env: ""
+    llm_model: "Qwen/Qwen2.5-7B-Instruct"
+    temperature: 0.0
+    timeout: 120
+    max_completion_tokens: 1200
+    supports_json_response_format: false
+    max_retries: 2
+    retry_sleep_seconds: 1.0
+    extra_headers: {}
+
+retrieval:
+  index_dir: ./artifacts/index
+  top_k: 12
+  conflict_top_k: 8
+  min_effective_n: 4
+  image_weight: 0.72
+  text_weight: 0.28
+  exclude_same_subject: true
+
+conformal:
+  alpha: 0.1
+  qhat: 0.12
+  qhat_json: ./artifacts/conformal.json
+
+contracts:
+  unstable_dist_std_threshold: 0.18
+  high_conflict_threshold: 0.68
+  high_conflict_min_width: 0.24
+  low_coverage_threshold: 0.32
+  min_interval_low: 0.0
+  max_interval_high: 1.0
+
+repair:
+  max_rounds: 3
+  api_budget: 0
+  token_budget: 0
+  use_learned_policy: false
+  learned_policy_path: ./artifacts/repair_policy.pkl
+
+prediction:
+  tasks:
+    - name: mortality_risk
+      label_column: mortality_risk
+      evidence_topics: [criticality, respiratory_status, hemodynamics]
+
+    - name: icu_risk
+      label_column: icu_risk
+      evidence_topics: [criticality, respiratory_status, hemodynamics]
+
+    - name: ventilation_risk
+      label_column: ventilation_risk
+      evidence_topics: [respiratory_status, support_devices]
+
+data:
+  studies_csv: ./artifacts/studies.csv
+  labels_csv: ./artifacts/labels.csv
+  index_dir: ./artifacts/index
+
+  raw_root: ""
+  raw_images_dir: ""
+  raw_reports_dir: ""
+  raw_notes_dir: ""
+
+  notes_dir: ./artifacts/notes
+  reports_dir: ./artifacts/reports
+  images_dir: ./artifacts/images
+
+  chexpert_csv: ""
+  task_labels_csv: ./artifacts/labels.csv
+  prefer_raw_data: true
+vlm:
+  enabled: false
+  backend: llava_hf
+  model_name: llava-hf/llava-1.5-7b-hf
+  device: cuda
+  dtype: bfloat16
+  load_4bit: false
+  max_new_tokens: 512
+  temperature: 0.0

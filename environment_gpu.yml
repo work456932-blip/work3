@@ -1,0 +1,18 @@
+name: circle_env
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - pyyaml
+  - scikit-learn
+  - pillow
+  - pip:
+      - faiss-cpu>=1.8.0
+      - sentence-transformers>=3.0.0
+      - torch>=2.2
+      - transformers>=4.40
